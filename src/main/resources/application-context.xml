@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <bean id="txnManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager" p:sessionFactory-ref="sessionFactory"/>
+
+    <bean id="dataSource" class="oracle.ucp.jdbc.PoolDataSourceFactory" factory-method="getPoolDataSource">
+        <property name="connectionPoolName" value="${pl.datasource.connectionPoolName}"/>
+        <property name="connectionProperties">
+            <props>
+              <prop key="oracle.net.CONNECT_TIMEOUT">${pl.datasource.connectionProperties.oracle.net.connectTimeout}</prop>
+              <prop key="oracle.jdbc.ReadTimeout">${pl.datasource.connectionProperties.oracle.jdbc.readTimeout}</prop>
+            </props>
+        </property>
+        <property name="connectionWaitTimeout" value="${pl.datasource.connectionWaitTimeout}"/>
+        <property name="maxPoolSize" value="${pl.datasource.maxPoolSize}"/>
+        <property name="maxStatements" value="${pl.datasource.maxStatements}"/>
+        <property name="minPoolSize" value="${pl.datasource.minPoolSize}"/>
+        <property name="password" value="${pl.datasource.password}"/>
+        <property name="timeToLiveConnectionTimeout" value="${pl.datasource.timeToLiveConnectionTimeout}"/>
+        <property name="URL" value="${pl.datasource.url}"/>
+        <property name="user" value="${pl.datasource.username}"/>
+        <property name="initialPoolSize" value="${pl.datasource.initialPoolSize}"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mappingResources">
+            <list>
+                <value>mappings/User.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.cache.provider_class">${pl.hibernate.cache.provider_class}</prop>
+                <prop key="hibernate.cache.use_query_cache">${pl.hibernate.cache.use_query_cache}</prop>
+                <prop key="hibernate.cache.use_second_level_cache">${pl.hibernate.cache.use_second_level_cache}</prop>
+                <prop key="hibernate.connection.autocommit">${pl.hibernate.connection.autocommit}</prop>
+                <prop key="hibernate.dialect">${pl.hibernate.dialect}</prop>
+                <prop key="hibernate.connection.useUnicode">${pl.hibernate.connection.useUnicode}</prop>
+                <prop key="hibernate.connection.characterEncoding">${pl.hibernate.connection.characterEncoding}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${pl.hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.order_updates">${pl.hibernate.order_updates}</prop>
+                <prop key="hibernate.show_sql">${pl.hibernate.show_sql}</prop>
+            </props>
+        </property>
+    </bean>
+<tx:annotation-driven/>
+</beans>
