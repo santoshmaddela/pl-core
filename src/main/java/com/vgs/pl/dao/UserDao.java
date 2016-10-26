@@ -1,7 +1,7 @@
 package com.vgs.pl.dao;
 
 /**
- * Created by SantoshKumar.Maddela on 10/25/2016.
+ * Created by Santosh.Kumar on 10/25/2016.
  */
 public interface UserDao {
 
